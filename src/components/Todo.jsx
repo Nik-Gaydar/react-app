@@ -13,6 +13,10 @@ const Todo = () => {
     console.log('Удаляем все задачи')
   }
 
+  const deleteTask = (taskid) => {
+    console.log(`Удаляем задачу с id: ${taskid}`)
+  }
+
   return (
     <div className="todo">
       <h1 className="todo__title">To Do List</h1>
@@ -23,7 +27,10 @@ const Todo = () => {
         done={tasks.filter(({isDone}) => isDone).length}
         onDeleteAllButtonClick={deleteAllTasks}
       />
-      <TodoList tasks={tasks}/>
+      <TodoList
+        tasks={tasks}
+        onDeleteTaskButtonClick={deleteTask}
+      />
     </div>
   )
 }
