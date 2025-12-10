@@ -17,11 +17,19 @@ const Todo = () => {
     console.log(`Удаляем задачу с id: ${taskid}`)
   }
 
+  const toggleTaskComplete = (taskid, isDone) => {
+    console.log(`ЗАдача ${taskid} ${isDone ? 'Выполнена':'Не выполнена'}`)
+  }
+
+  const filterTasks = (query) => {
+    console.log(`Поиск: ${query}`)
+  }
+
   return (
     <div className="todo">
       <h1 className="todo__title">To Do List</h1>
       <AddTaskForm />
-      <SearchTaskForm />
+      <SearchTaskForm onSearchInput={filterTasks} />
       <TodoInfo
         total={tasks.length}
         done={tasks.filter(({isDone}) => isDone).length}
@@ -30,6 +38,7 @@ const Todo = () => {
       <TodoList
         tasks={tasks}
         onDeleteTaskButtonClick={deleteTask}
+        onTaskCompleteChange={toggleTaskComplete}
       />
     </div>
   )
