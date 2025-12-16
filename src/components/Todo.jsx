@@ -31,6 +31,8 @@ const Todo = () => {
         if (task.id === taskId) {
           return {...task, isDone}
         }
+
+        return task
       })
     )
   }
