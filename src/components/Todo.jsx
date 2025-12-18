@@ -57,6 +57,7 @@ const Todo = () => {
 
       setTasks([...tasks, newTask])
       setNewTaskTitle('')
+      setSearchQuery('')
     }
   }
 
@@ -65,7 +66,7 @@ const Todo = () => {
   }, [tasks]);
 
   const clearSearchQuery = searchQuery.trim().toLowerCase()
-  const filteredTasks = clearSearchQuery > 0
+  const filteredTasks = clearSearchQuery.length > 0
     ? tasks.filter(({ title }) => title.toLowerCase().includes(clearSearchQuery))
     : null
 
