@@ -24,6 +24,8 @@ const Todo = () => {
 
   const newTaskInputRef = useRef(null)
   const firstIncompleteTaskRef = useRef(null)
+  //В масиве задач находим первый элемент у когорого isDone - false, если такой есть, то получаем его id
+  const firstIncompleteTaskId = tasks.find(({isDone}) => !isDone)?.id
 
   const deleteAllTasks = () => {
     const isConfirmed = confirm('Are you sure you want to delete all?')
@@ -98,10 +100,16 @@ const Todo = () => {
         done={tasks.filter(({isDone}) => isDone).length}
         onDeleteAllButtonClick={deleteAllTasks}
       />
-      <Button onClick={() => console.log('Scroll!')}>Показать первую задачу</Button>
+      <Button
+        onClick={() => firstIncompleteTaskRef.current?.scrollIntoView({behavior: "smooth"})}
+      >
+        Показать первую задачу
+      </Button>
       <TodoList
         tasks={tasks}
         filteredTasks={filteredTasks}
+        firstIncompleteTaskRef={firstIncompleteTaskRef}
+        firstIncompleteTaskId={firstIncompleteTaskId}
         onDeleteTaskButtonClick={deleteTask}
         onTaskCompleteChange={toggleTaskComplete}
       />
