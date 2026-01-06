@@ -26,7 +26,7 @@ const TodoItem = (props) => {
         id={id}
         type="checkbox"
         checked={isDone}
-        onChange={(event) => onTaskCompleteChange(id, event.target.checked)}
+        onChange={({target}) => toggleTaskComplete(id, target.checked)}
       />
       <label
         className="todo-item__label"
