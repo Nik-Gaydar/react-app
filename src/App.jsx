@@ -1,8 +1,11 @@
 import Todo from './components/Todo.jsx'
+import { TasksProvider } from "./components/context/TasksContext.jsx";
 
 const App = () => {
   return (
-    <Todo />
+    <TasksProvider>
+      <Todo />
+    </TasksProvider>
   )
 }
 
