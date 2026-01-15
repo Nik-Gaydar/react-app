@@ -5,7 +5,7 @@ const useTasks = () => {
   const {
     savedTasks,
     saveTasks,
-  } = useTasksLocalStorage
+  } = useTasksLocalStorage()
 
   const [tasks, setTasks] = useState(savedTasks ?? [
     {id: 'task-1', title: 'Купить ноутбук', isDone: false},
