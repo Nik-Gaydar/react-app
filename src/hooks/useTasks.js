@@ -1,18 +1,16 @@
 import { useState, useRef, useCallback, useEffect, useMemo  } from 'react'
+import useTasksLocalStorage from "./useTasksLocalStorage.js";
 
 const useTasks = () => {
-  const [tasks, setTasks] = useState(() => {
-    const savedTasks = localStorage.getItem('tasks')
+  const {
+    savedTasks,
+    saveTasks,
+  } = useTasksLocalStorage
 
-    if (savedTasks) {
-      return JSON.parse(savedTasks)
-    }
-
-    return [
-      {id: 'task-1', title: 'Купить ноутбук', isDone: false},
-      {id: 'task-2', title: 'Закрыть долги', isDone: true},
-    ]
-  })
+  const [tasks, setTasks] = useState(savedTasks ?? [
+    {id: 'task-1', title: 'Купить ноутбук', isDone: false},
+    {id: 'task-2', title: 'Закрыть долги', isDone: true},
+  ])
 
   const [newTaskTitle, setNewTaskTitle] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
@@ -63,7 +61,7 @@ const useTasks = () => {
   }, [newTaskTitle])
 
   useEffect(() => {
-    localStorage.setItem('tasks', JSON.stringify(tasks))
+    saveTasks(tasks)
   }, [tasks]);
 
   useEffect(() => {
@@ -81,8 +79,6 @@ const useTasks = () => {
   return {
     tasks,
     filteredTasks,
-    firstIncompleteTaskId,
-    firstIncompleteTaskRef,
     deleteTask,
     deleteAllTasks,
     toggleTaskComplete,
