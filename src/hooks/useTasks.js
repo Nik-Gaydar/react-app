@@ -8,8 +8,8 @@ const useTasks = () => {
   } = useTasksLocalStorage()
 
   const [tasks, setTasks] = useState(savedTasks ?? [
-    {id: 'task-1', title: 'Купить ноутбук', isDone: false},
-    {id: 'task-2', title: 'Закрыть долги', isDone: true},
+    {id: 'task-1', title: 'Выучить фронт', isDone: false},
+    {id: 'task-2', title: 'Не сдохнуть', isDone: false},
   ])
 
   const [newTaskTitle, setNewTaskTitle] = useState('')
@@ -43,12 +43,11 @@ const useTasks = () => {
     )
   }, [tasks])
 
-  const addTask = useCallback(() => {
+  const addTask = useCallback((title) => {
     {
-      if(newTaskTitle.trim().length > 0) {
         const newTask = {
           id: crypto?.randomUUID() ?? Date.now().toString(),
-          title: newTaskTitle,
+          title,
           isDone: false,
         }
 
@@ -57,8 +56,7 @@ const useTasks = () => {
         setSearchQuery('')
         newTaskInputRef.current.focus()
       }
-    }
-  }, [newTaskTitle])
+  }, [])
 
   useEffect(() => {
     saveTasks(tasks)
