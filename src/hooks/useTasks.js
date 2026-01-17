@@ -1,16 +1,8 @@
 import { useState, useRef, useCallback, useEffect, useMemo  } from 'react'
-import useTasksLocalStorage from "./useTasksLocalStorage.js";
 
 const useTasks = () => {
-  const {
-    savedTasks,
-    saveTasks,
-  } = useTasksLocalStorage()
 
-  const [tasks, setTasks] = useState(savedTasks ?? [
-    {id: 'task-1', title: 'Выучить фронт', isDone: false},
-    {id: 'task-2', title: 'Не сдохнуть', isDone: false},
-  ])
+  const [tasks, setTasks] = useState([])
 
   const [newTaskTitle, setNewTaskTitle] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
@@ -43,11 +35,12 @@ const useTasks = () => {
     )
   }, [tasks])
 
-  const addTask = useCallback((title) => {
+  const addTask = useCallback(() => {
     {
+      if(newTaskTitle.trim().length > 0) {
         const newTask = {
           id: crypto?.randomUUID() ?? Date.now().toString(),
-          title,
+          title: newTaskTitle,
           isDone: false,
         }
 
@@ -56,14 +49,13 @@ const useTasks = () => {
         setSearchQuery('')
         newTaskInputRef.current.focus()
       }
-  }, [])
-
-  useEffect(() => {
-    saveTasks(tasks)
-  }, [tasks]);
+    }
+  }, [newTaskTitle])
 
   useEffect(() => {
     newTaskInputRef.current.focus()
+
+    fetch('http://localhost:3001/tasks')
   }, []);
 
   const filteredTasks = useMemo(() => {
