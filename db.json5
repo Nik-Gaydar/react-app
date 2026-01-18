@@ -1,6 +1,1 @@
-{
-  tasks: [
-    {id: 'task-1', title: 'Купить ноутбук', isDone: false},
-    {id: 'task-2', title: 'Закрыть долги', isDone: true},
-  ]
-}
+{tasks:[]}

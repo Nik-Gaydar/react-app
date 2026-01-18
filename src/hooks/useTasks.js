@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect, useMemo  } from 'react'
+import tasksAPI from "../api/TasksAPI.js";
 
 const useTasks = () => {
 
@@ -13,41 +14,51 @@ const useTasks = () => {
     const isConfirmed = confirm('Are you sure you want to delete all?')
 
     if(isConfirmed) {
-      setTasks([])
+      tasksAPI.deleteAll(tasks)
+        .then(() => setTasks([]))
     }
-  }, [])
+  }, [tasks])
 
   const deleteTask = useCallback((taskId) => {
-    setTasks(
-      tasks.filter((task) => task.id !== taskId)
-    )
+    tasksAPI.delete(taskId)
+      .then(() => {
+        setTasks(
+          tasks.filter((task) => task.id !== taskId)
+        )
+      })
   }, [tasks])
 
   const toggleTaskComplete = useCallback((taskId, isDone) => {
-    setTasks(
-      tasks.map((task) => {
-        if (task.id === taskId) {
-          return {...task, isDone}
-        }
+    tasksAPI.toggleComplete(taskId, isDone)
+      .then(() => {
+        setTasks(
+          tasks.map((task) => {
+            if (task.id === taskId) {
+              return {...task, isDone}
+            }
 
-        return task
+            return task
+          })
+        )
       })
-    )
   }, [tasks])
 
   const addTask = useCallback(() => {
     {
       if(newTaskTitle.trim().length > 0) {
         const newTask = {
-          id: crypto?.randomUUID() ?? Date.now().toString(),
+          // id: crypto?.randomUUID() ?? Date.now().toString(),  // Генерация уникального id для задачи
           title: newTaskTitle,
           isDone: false,
         }
 
-        setTasks((prevTasks) => [...prevTasks, newTask])
-        setNewTaskTitle('')
-        setSearchQuery('')
-        newTaskInputRef.current.focus()
+        tasksAPI.add(newTask)
+          .then((addedTask) => {
+            setTasks((prevTasks) => [...prevTasks, addedTask])
+            setNewTaskTitle('')
+            setSearchQuery('')
+            newTaskInputRef.current.focus()
+          })
       }
     }
   }, [newTaskTitle])
@@ -55,7 +66,7 @@ const useTasks = () => {
   useEffect(() => {
     newTaskInputRef.current.focus()
 
-    fetch('http://localhost:3001/tasks')
+    tasksAPI.getAll().then(setTasks)
   }, []);
 
   const filteredTasks = useMemo(() => {
