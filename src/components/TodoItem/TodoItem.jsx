@@ -1,6 +1,6 @@
 import { memo, useContext } from 'react'
-import { TasksContext } from "./context/TasksContext.jsx";
-import RouterLink from "./RouterLink.jsx";
+import { TasksContext } from '../context/TasksContext.jsx'
+import RouterLink from '../RouterLink/RouterLink.jsx'
 
 const TodoItem = (props) => {
   const {
@@ -27,7 +27,9 @@ const TodoItem = (props) => {
         id={id}
         type="checkbox"
         checked={isDone}
-        onChange={({target}) => toggleTaskComplete(id, target.checked)}
+        onChange={({ target }) => {
+          toggleTaskComplete(id, target.checked)
+        }}
       />
       <label
         className="todo-item__label visually-hidden"

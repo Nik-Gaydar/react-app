@@ -12,11 +12,7 @@ const RouterLink = (props) => {
   }
 
   return (
-    <a
-      href={to}
-      onClick={handleClick}
-      {...rest}
-    >
+    <a href={to} onClick={handleClick} {...rest}>
       {children}
     </a>
   )

@@ -1,26 +1,27 @@
-import {useEffect, useState} from "react";
-import tasksAPI from "../api/TasksAPI.js";
+import {useEffect, useState} from 'react'
+import tasksAPI from '../api/tasksAPI'
 
-const TaskPage = () => {
-  const taskId = 'id'
+const TaskPage = (props) => {
+  const { params } = props
+  const taskId = params.id
 
   const [task, setTask] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
-  const [hasError, setHaserror] = useState(false)
+  const [hasError, setHasError] = useState(false)
 
   useEffect(() => {
     tasksAPI.getById(taskId)
       .then((taskData) => {
         setTask(taskData)
-        setHaserror(false)
+        setHasError(false)
       })
       .catch(() => {
-        setHaserror(true)
+        setHasError(true)
       })
       .finally(() => {
         setIsLoading(false)
       })
-  }, []);
+  }, [])
 
   if (isLoading) {
     return <div>Loading...</div>

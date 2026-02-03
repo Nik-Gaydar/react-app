@@ -1,21 +1,21 @@
-import {useEffect, useState} from 'react'
+import { useState, useEffect } from 'react'
 
 const matchPath = (path, route) => {
   const pathParts = path.split('/')
-  const routePaths = route.split('/')
+  const routeParts = route.split('/')
 
-  if (pathParts.length !== routePaths.length) {
+  if (pathParts.length !== routeParts.length) {
     return null
   }
 
   const params = {}
 
-  for (let i=0; i < routePaths.length; i++) {
-    if(routePaths[i].startsWith(':')) {
-      const paramName = routePaths[i].slice(1)
+  for (let i = 0; i < routeParts.length; i++) {
+    if (routeParts[i].startsWith(':')) {
+      const paramName = routeParts[i].slice(1)
 
       params[paramName] = pathParts[i]
-    } else if (routePaths[i] !== pathParts[i]) {
+    } else if (routeParts[i] !== pathParts[i]) {
       return null
     }
   }

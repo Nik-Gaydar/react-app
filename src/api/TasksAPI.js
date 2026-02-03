@@ -24,12 +24,12 @@ const tasksAPI = {
   },
 
   delete: (id) => {
-    return fetch(`${URL}/${id}`, {method: 'DELETE'})
+    return fetch(`${URL}/${id}`, { method: 'DELETE' })
   },
 
   deleteAll: (tasks) => {
     return Promise.all(
-      tasks.map(({id}) => tasksAPI.delete(id))
+      tasks.map(({ id }) => tasksAPI.delete(id))
     )
   },
 
@@ -37,7 +37,7 @@ const tasksAPI = {
     return fetch(`${URL}/${id}`, {
       method: 'PATCH',
       headers,
-      body: JSON.stringify({isDone})
+      body: JSON.stringify({ isDone })
     })
   },
 }
